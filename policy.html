@@ -35,10 +35,15 @@ p{margin:0 0 14px}
 
 .top{background:var(--paper);border-bottom:var(--bw) solid var(--ink)}
 .top .container{max-width:1180px;display:flex;align-items:center;gap:14px;min-height:70px}
-.brand{display:flex;align-items:center;gap:11px;text-decoration:none}
-.brand__logo{display:none;height:46px;width:auto;max-width:220px;object-fit:contain}
+.brand{display:flex;align-items:center;gap:8px;text-decoration:none}
+.brand__logo{
+  display:none;height:92px;width:auto;
+  clip-path:inset(16% 17.6% 42.5% 17%);
+  margin:-15px -23px -39px -22px;
+  mix-blend-mode:multiply
+}
 .brand.has-logo .brand__logo{display:block}
-.brand.has-logo .brand__m,.brand.has-logo .brand__txt{display:none}
+.brand.has-logo .brand__m{display:none}
 .brand__m{width:42px;height:42px;border:var(--bw) solid var(--ink);background:var(--card);display:grid;place-items:center;
   font-family:var(--fd);font-weight:800;font-size:.8rem}
 .brand__n{font-family:var(--fd);font-weight:800;font-size:1rem;text-transform:uppercase;letter-spacing:-.03em;display:block}
@@ -82,7 +87,7 @@ footer.pg a:hover{color:var(--yellow)}
   <div class="container">
     <a class="brand" href="index.html">
       <!-- ЛОГОТИП: положите файл как images/logo.png — подставится автоматически -->
-      <img class="brand__logo" src="images/logo.png" alt="Художественная школа «Щука»" width="220" height="46">
+      <img class="brand__logo" src="images/logo.jpg" alt="Художественная школа «Щука»" width="130" height="92">
       <span class="brand__m" aria-hidden="true">ХШЩ</span>
       <span class="brand__txt"><span class="brand__n">Щука</span><span class="brand__s">Художественная школа</span></span>
     </a>

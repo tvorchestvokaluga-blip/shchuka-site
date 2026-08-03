@@ -148,10 +148,18 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
   border-bottom:var(--bw) solid var(--ink)
 }
 .header__in{display:flex;align-items:center;gap:var(--s5);min-height:70px}
-.brand{display:flex;align-items:center;gap:11px;text-decoration:none;flex-shrink:0}
-.brand__logo{display:none;height:46px;width:auto;max-width:220px;object-fit:contain}
+.brand{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0}
+/* Логотип — JPG на белом фоне с большими полями.
+   clip-path обрезает поля, отрицательные margin убирают пустоту,
+   mix-blend-mode вписывает белый фон в кремовую бумагу. */
+.brand__logo{
+  display:none;height:92px;width:auto;
+  clip-path:inset(16% 17.6% 42.5% 17%);
+  margin:-15px -23px -39px -22px;
+  mix-blend-mode:multiply
+}
 .brand.has-logo .brand__logo{display:block}
-.brand.has-logo .brand__m,.brand.has-logo .brand__t{display:none}
+.brand.has-logo .brand__m{display:none}
 .brand__m{
   width:42px;height:42px;border:var(--bw) solid var(--ink);background:var(--card);
   display:grid;place-items:center;font-family:var(--fd);font-weight:800;font-size:.82rem;letter-spacing:-.02em
@@ -159,7 +167,7 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
 .brand__t{display:flex;flex-direction:column;line-height:1.05}
 .brand__n{font-family:var(--fd);font-weight:800;font-size:1.02rem;letter-spacing:-.03em;text-transform:uppercase}
 .brand__s{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-50);font-weight:600}
-.nav{display:flex;gap:var(--s5);margin-left:auto;align-items:center}
+.nav{display:flex;gap:18px;margin-left:auto;align-items:center}
 .nav a{text-decoration:none;font-size:.87rem;font-weight:600;position:relative;padding:5px 0}
 .nav a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:3px;background:var(--coral);transition:right .26s var(--ease)}
 .nav a:hover::after{right:0}
@@ -175,6 +183,12 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
 .hero{position:relative;border-bottom:var(--bw) solid var(--ink);overflow:hidden}
 .hero__art{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .hero__in{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:var(--s7);align-items:center;padding-block:clamp(44px,5.5vw,80px)}
+/* мягкая подложка под текстом первого экрана, чтобы фигуры не мешали читать */
+.hero__in>div:first-child{position:relative}
+.hero__in>div:first-child::before{
+  content:"";position:absolute;inset:-40px -60px;z-index:-1;pointer-events:none;
+  background:radial-gradient(70% 65% at 38% 50%,var(--paper) 58%,rgba(247,243,231,0) 100%)
+}
 .hero h1{font-size:clamp(1.85rem,1.2rem+2.9vw,3.6rem)}
 .hero h1 em{font-style:normal;color:var(--coral);text-shadow:3px 3px 0 var(--ink)}
 .hero__kick{
@@ -414,8 +428,6 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
 .footer__t{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:var(--s7);padding-bottom:var(--s6);border-bottom:2px solid rgba(255,255,255,.14)}
 .footer .brand__n{color:#fff}
 .footer .brand__m{background:var(--paper);border-color:var(--paper)}
-/* логотип в подвале: инвертируем тёмно-зелёный знак в светлый */
-.brand--foot .brand__logo{filter:brightness(0) invert(1);opacity:.92}
 .footer h4{font-family:var(--fs);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--yellow);margin:0 0 var(--s4);font-weight:700}
 .footer ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .footer a{text-decoration:none}
@@ -538,7 +550,7 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
     <a class="brand" id="brandTop" href="index.html" aria-label="Художественная школа Щука — на главную">
       <!-- ЛОГОТИП: положите файл как images/logo.png — он подставится автоматически.
            Пока файла нет, показывается текстовая версия знака. -->
-      <img class="brand__logo" src="images/logo.png" alt="Художественная школа «Щука»" width="220" height="46">
+      <img class="brand__logo" src="images/logo.jpg" alt="Художественная школа «Щука»" width="130" height="92">
       <span class="brand__m" aria-hidden="true">ХШЩ</span>
       <span class="brand__t">
         <span class="brand__n">Щука</span>
@@ -1230,8 +1242,6 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
     <div class="footer__t">
       <div>
         <a class="brand brand--foot" href="index.html">
-          <!-- ЛОГОТИП В ПОДВАЛЕ: тот же файл, автоматически осветляется фильтром -->
-          <img class="brand__logo" src="images/logo.png" alt="Художественная школа «Щука»" width="220" height="46">
           <span class="brand__m" style="color:var(--ink)" aria-hidden="true">ХШЩ</span>
           <span class="brand__t">
             <span class="brand__n">Щука</span>
