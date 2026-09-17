@@ -31,6 +31,10 @@ find "$ROOT" -type d -exec chmod 755 {} \;
 find "$ROOT" -type f -exec chmod 644 {} \;
 
 echo "==> Настраиваю nginx"
+# Если сертификат уже выпущен, конфиг не трогаем — иначе перезапишем настройки HTTPS.
+if [ -d "/etc/letsencrypt/live/$DOMAIN" ]; then
+  echo "    сертификат найден — конфиг nginx оставляю как есть"
+else
 cat > /etc/nginx/sites-available/shchuka <<'NGINXCONF'
 server {
     listen 80 default_server;
@@ -67,11 +71,12 @@ server {
 
     # служебные файлы репозитория наружу не отдаём
     location ~ /\.(git|gitignore) { deny all; }
-    location ~ /(deploy\.sh|README\.md)$ { deny all; }
+    location ~ ^/((deploy|ssl|telegram)\.sh|README\.md)$ { deny all; }
 
     error_page 404 /index.html;
 }
 NGINXCONF
+fi
 
 ln -sf /etc/nginx/sites-available/shchuka /etc/nginx/sites-enabled/shchuka
 rm -f /etc/nginx/sites-enabled/default
