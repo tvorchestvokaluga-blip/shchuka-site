@@ -33,6 +33,7 @@ cat > /opt/shchuka-bot/app.py <<'PY'
 import html
 import json
 import os
+import sys
 import urllib.parse
 import urllib.request
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -99,7 +100,9 @@ class Handler(BaseHTTPRequestHandler):
 
         try:
             send("\n".join(lines))
-        except Exception:
+        except Exception as exc:
+            sys.stderr.write("Telegram send failed: %r\n" % (exc,))
+            sys.stderr.flush()
             return self.reply(502, {"ok": False})
         return self.reply(200, {"ok": True})
 
