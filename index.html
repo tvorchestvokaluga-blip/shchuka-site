@@ -439,6 +439,14 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
 .footer__ab{margin-top:var(--s4);max-width:42ch;line-height:1.6}
 .footer__l{padding-top:var(--s5);display:flex;flex-wrap:wrap;gap:var(--s5);justify-content:space-between;font-size:.76rem;color:rgba(255,255,255,.42)}
 
+.header__tg{display:grid;place-items:center;width:40px;height:40px;flex-shrink:0;
+  border:2.5px solid var(--ink);background:var(--card);color:var(--ink);
+  transition:background .18s var(--ease),color .18s var(--ease),transform .18s var(--ease)}
+.header__tg svg{width:18px;height:18px}
+.header__tg:hover{background:var(--coral);color:#fff;transform:translate(-1px,-1px)}
+.cta2{display:flex;flex-wrap:wrap;gap:11px;margin-top:var(--s5)}
+.cta2 .btn{flex:1 1 190px;justify-content:center;padding:15px 18px;font-size:.88rem}
+
 /* мобильный CTA */
 .sticky{position:fixed;left:0;right:0;bottom:0;z-index:70;display:none;gap:9px;
   padding:9px 12px calc(9px + env(safe-area-inset-bottom));background:var(--paper);border-top:var(--bw) solid var(--ink)}
@@ -491,6 +499,7 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
   .g2,.g3,.steps{grid-template-columns:1fr}
   .sched{grid-template-columns:1fr}
   .sticky{display:flex}
+  .sticky .btn{padding:14px 8px;font-size:.82rem}
   body{padding-bottom:72px}
   .box,.form{padding:var(--s5)}
 }
@@ -536,7 +545,8 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
 @media (max-width:400px){
   .gal{grid-template-columns:1fr}
   .hero h1{font-size:1.72rem}
-  .sticky .btn{padding:13px 10px;font-size:.82rem}
+  .sticky .btn{padding:13px 6px;font-size:.76rem;letter-spacing:-.01em}
+  .cta2 .btn{flex-basis:100%}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
@@ -578,6 +588,8 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
     </nav>
     <div class="header__cta">
       <a class="header__ph" href="tel:+79534649671">+7 953 464-96-71</a>
+      <a class="header__tg" href="https://t.me/alekseevna_project" target="_blank" rel="noopener"
+         aria-label="Написать в Telegram" title="Написать в Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.7 3.3 2.9 10.6c-1 .4-1 1.8 0 2.2l4.6 1.5 1.8 5.6c.3.9 1.4 1.1 2 .4l2.5-2.6 4.6 3.4c.7.5 1.7.1 1.9-.7l3.2-15c.2-.9-.7-1.6-1.5-1.3ZM8.9 14.4l9-6.1-7.6 7.3-.2 3.1-1.2-4.3Z"/></svg></a>
       <a class="btn btn--primary btn--sm" href="#signup">Пробное занятие</a>
     </div>
     <button class="burger" id="burger" aria-label="Меню" aria-expanded="false" aria-controls="nav">
@@ -1134,8 +1146,9 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
             <a href="tel:+79534649671">+7 953 464-96-71</a></p>
         </form>
         <div class="form__alt">
-          Не любите формы? Напишите нам
-          <a href="https://vk.com/hsh_kaluga" target="_blank" rel="noopener">ВКонтакте</a>
+          Не любите формы? Позвоните <a href="tel:+79534649671">+7 953 464-96-71</a>
+          или напишите в <a href="https://t.me/alekseevna_project" target="_blank" rel="noopener">Telegram</a>
+          либо <a href="https://vk.com/hsh_kaluga" target="_blank" rel="noopener">ВКонтакте</a>
         </div>
       </div>
 
@@ -1227,11 +1240,19 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
           <div><b>Реквизиты</b><p>ИП Шелгунова Е. А.<br>ИНН 402902237242 · ОГРНИП 325400000037420<br>
             <a href="sveden.html" style="font-size:.88rem">Сведения об образовательной организации →</a></p></div>
         </div>
+        <div class="cta2">
+          <a class="btn btn--primary" href="tel:+79534649671">Позвонить</a>
+          <a class="btn btn--yellow" href="https://t.me/alekseevna_project" target="_blank" rel="noopener">Написать в Telegram</a>
+        </div>
+
         <div>
           <b style="display:block;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-50);margin-bottom:3px;font-weight:700">Мы в соцсетях</b>
           <div class="soc">
             <a href="https://vk.com/hsh_kaluga" target="_blank" rel="noopener" aria-label="ВКонтакте">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.8 17.3c-5.5 0-8.9-3.9-9-10.3h2.8c.1 4.8 2.3 6.8 3.9 7.2V7h2.6v4.1c1.6-.2 3.3-2 3.9-4.1h2.6c-.4 2.6-2.2 4.4-3.5 5.1 1.3.6 3.3 2.2 4.1 5.2h-2.9c-.6-2-2.1-3.5-4.2-3.8v3.8h-.3Z"/></svg>
+            </a>
+            <a href="https://t.me/alekseevna_project" target="_blank" rel="noopener" aria-label="Написать в Telegram">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.7 3.3 2.9 10.6c-1 .4-1 1.8 0 2.2l4.6 1.5 1.8 5.6c.3.9 1.4 1.1 2 .4l2.5-2.6 4.6 3.4c.7.5 1.7.1 1.9-.7l3.2-15c.2-.9-.7-1.6-1.5-1.3ZM8.9 14.4l9-6.1-7.6 7.3-.2 3.1-1.2-4.3Z"/></svg>
             </a>
             <a href="mailto:hsh_kaluga@mail.ru" aria-label="Написать на почту">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
@@ -1299,7 +1320,9 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
 </footer>
 
 <div class="sticky">
-  <a class="btn" href="tel:+79534649671">Позвонить</a>
+  <a class="btn" href="tel:+79534649671" aria-label="Позвонить в школу">Позвонить</a>
+  <a class="btn" href="https://t.me/alekseevna_project" target="_blank" rel="noopener"
+     aria-label="Написать в Telegram">Написать</a>
   <a class="btn btn--primary" href="#signup">На пробное</a>
 </div>
 
