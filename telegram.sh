@@ -77,9 +77,10 @@ class Handler(BaseHTTPRequestHandler):
         except Exception:
             return self.reply(400, {"ok": False})
 
-        # ловушка для спам-ботов: поле скрыто от людей, заполнить его может только робот
-        if str(data.get("hp") or "").strip():
-            return self.reply(200, {"ok": True})
+        # Скрытое поле-ловушка. Раньше такие заявки молча отбрасывались — но его мог
+        # заполнить автоподстановкой браузер живого человека, и заявка пропадала.
+        # Теперь ничего не теряем: помечаем и всё равно отправляем.
+        suspicious = bool(str(data.get("hp") or "").strip())
 
         def field(key, limit):
             return html.escape(str(data.get(key) or "").strip())[:limit]
@@ -89,7 +90,10 @@ class Handler(BaseHTTPRequestHandler):
         if len(name) < 2 or len(phone) < 5:
             return self.reply(400, {"ok": False})
 
-        lines = ["<b>Заявка на пробное занятие</b>", "", "Имя: " + name, "Телефон: " + phone]
+        title = "<b>Заявка на пробное занятие</b>"
+        if suspicious:
+            title += "\n(похоже на автозаполнение или бота — проверьте телефон)"
+        lines = [title, "", "Имя: " + name, "Телефон: " + phone]
         age = field("age", 40)
         if age:
             lines.append("Возраст ребёнка: " + age)

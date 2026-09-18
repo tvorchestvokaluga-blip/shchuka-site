@@ -386,7 +386,7 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
 .form .btn{margin-top:var(--s5)}
 .form__alt{margin-top:var(--s5);padding-top:var(--s5);border-top:2px dashed var(--grid);text-align:center;font-size:.82rem;color:var(--ink-50)}
 .form__alt a{font-weight:700;color:var(--ink);text-decoration:none;box-shadow:inset 0 -3px 0 var(--yellow)}
-.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.hp{display:none !important}
 .form__err{display:none;margin-top:14px;padding:12px 14px;border:var(--bw) solid var(--coral);
   background:#FDEDE9;font-size:.86rem;font-weight:600;color:var(--coral-dk);text-align:center}
 .form__err a{color:var(--coral-dk);white-space:nowrap}
@@ -1130,9 +1130,9 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
             <label for="note">Комментарий</label>
             <textarea id="note" name="note" placeholder="Опыт занятий, удобное время, вопросы"></textarea>
           </div>
-          <div class="hp" aria-hidden="true">
-            <label for="nickname">Не заполняйте это поле</label>
-            <input type="text" id="nickname" name="nickname" tabindex="-1" autocomplete="off">
+          <div class="hp" aria-hidden="true" hidden>
+            <input type="text" id="hpfield" name="hp_x7" tabindex="-1" autocomplete="off"
+                   aria-hidden="true" value="">
           </div>
           <label class="consent">
             <input type="checkbox" id="consent" required>
@@ -1408,7 +1408,7 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
         phone:phone.value.trim(),
         age:age.value,
         comment:document.getElementById('note').value.trim(),
-        hp:document.getElementById('nickname').value
+        hp:(document.getElementById('hpfield')||{}).value||''
       })
     }).then(function(r){
       if(!r.ok)throw new Error(r.status);
