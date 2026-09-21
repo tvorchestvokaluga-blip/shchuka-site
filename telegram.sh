@@ -148,6 +148,10 @@ systemctl is-active shchuka-bot
 
 echo "==> Подключаю адрес /api/zayavka в nginx"
 install -d -m 755 /etc/nginx/snippets
+# Не затираем более полный конфиг, если его уже поставил autodeploy.sh
+if grep -q 'no-cache' /etc/nginx/snippets/shchuka-api.conf 2>/dev/null; then
+  echo "    конфиг nginx уже настроен — не трогаю"
+else
 cat > /etc/nginx/snippets/shchuka-api.conf <<'SNIP'
 location = /api/zayavka {
     proxy_pass http://127.0.0.1:8081/api/zayavka;
@@ -159,6 +163,7 @@ location = /api/zayavka {
 # служебные скрипты наружу не отдаём
 location ~ ^/(deploy|ssl|telegram)\.sh$ { deny all; }
 SNIP
+fi
 
 python3 - <<'PY'
 path = "/etc/nginx/sites-available/shchuka"

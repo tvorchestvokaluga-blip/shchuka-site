@@ -1388,6 +1388,30 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
 
   var form=document.getElementById('signupForm'), wrap=document.getElementById('form');
   function bad(id,v){document.getElementById(id).classList.toggle('bad',v);}
+
+  /* Передача заявки в Calltouch, чтобы она попала в журнал заявок
+     и связалась с источником, из которого пришёл посетитель.
+     ID сайта в Calltouch — 82650. Ошибки не должны мешать отправке заявки школе. */
+  var CT_SITE_ID='82650';
+  function ctSendRequest(d){
+    try{
+      var sid=window.call_value||(document.cookie.match(/(?:^|;\s*)_ct_session_id=([^;]*)/)||[])[1]||'';
+      var comment=[d.age?('Возраст ребёнка: '+d.age):'',d.comment].filter(Boolean).join('. ');
+      var body=new URLSearchParams();
+      body.set('fio',d.name);
+      body.set('phoneNumber',d.phone.replace(/\D/g,''));
+      body.set('subject','Запись на пробное занятие');
+      if(comment)body.set('comment',comment);
+      body.set('requestUrl',location.href);
+      if(sid)body.set('sessionId',sid);
+      fetch('https://api.calltouch.ru/calls-service/RestAPI/requests/'+CT_SITE_ID+'/register/',{
+        method:'POST',
+        mode:'no-cors',
+        headers:{'Content-Type':'application/x-www-form-urlencoded;charset=utf-8'},
+        body:body.toString()
+      }).catch(function(){});
+    }catch(err){}
+  }
   form.addEventListener('submit',function(e){
     e.preventDefault();
     var name=document.getElementById('name'),age=document.getElementById('age'),cs=document.getElementById('consent');
@@ -1399,6 +1423,13 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
     var btn=form.querySelector('button[type=submit]');
     var old=btn.textContent;
     btn.disabled=true; btn.textContent='Отправляем…';
+
+    ctSendRequest({
+      name:name.value.trim(),
+      phone:phone.value.trim(),
+      age:age.value,
+      comment:document.getElementById('note').value.trim()
+    });
 
     fetch('/api/zayavka',{
       method:'POST',
