@@ -10,6 +10,9 @@
 set -euo pipefail
 
 ROOT="/var/www/shchuka"
+# --system, а не --global: сервис обновления запускается systemd, и домашний каталог
+# у него другой — с --global проверка прав падает и обновление не работает.
+git config --system --add safe.directory "$ROOT" 2>/dev/null || true
 git config --global --add safe.directory "$ROOT" 2>/dev/null || true
 
 echo "==> Ставлю автообновление"
@@ -28,6 +31,13 @@ git -C "$ROOT" reset --hard origin/main --quiet
 chown -R www-data:www-data "$ROOT"
 find "$ROOT" -type d -exec chmod 755 {} \;
 find "$ROOT" -type f -exec chmod 644 {} \;
+# сервис приёма заявок тоже живёт в репозитории — обновляем и его
+if [ -f "$ROOT/app.py" ] && ! cmp -s "$ROOT/app.py" /opt/shchuka-bot/app.py; then
+  install -d -m 755 /opt/shchuka-bot
+  cp "$ROOT/app.py" /opt/shchuka-bot/app.py
+  systemctl restart shchuka-bot || true
+  echo "сервис заявок обновлён"
+fi
 if nginx -t >/dev/null 2>&1; then systemctl reload nginx; fi
 echo "обновлено до $REMOTE"
 SH
@@ -85,8 +95,9 @@ location ~* \.html$ {
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
 }
 
-# служебные скрипты наружу не отдаём
+# служебные файлы наружу не отдаём
 location ~ ^/(deploy|ssl|telegram|tgfix|autodeploy)\.sh$ { deny all; }
+location = /app.py { deny all; }
 SNIP
 
 python3 - <<'PY'
