@@ -1469,12 +1469,13 @@ h1{font-size:var(--t4)} h2{font-size:var(--t3)} h3{font-size:var(--t1);letter-sp
     });
   });
 
-  /* Calltouch: JS-цель «посетитель дошёл до блока с ценами».
-     На неё в кабинете Calltouch привязан поп-ап сценария 2.
-     Срабатывает один раз за просмотр страницы. ID счётчика — 6pbogdkl. */
+  /* Calltouch: JS-цели «посетитель дошёл до блока» — группы, как учим, работы, цены.
+     На них в кабинете Calltouch привязаны поп-апы сценария 2.
+     Каждая срабатывает один раз за просмотр страницы. ID счётчика — 6pbogdkl. */
   (function(){
     var CT_MOD_ID='6pbogdkl';
-    var sections={prices:'prices_view'};   /* id раздела : идентификатор цели */
+    /* id раздела : идентификатор цели */
+    var sections={groups:'groups_view', how:'how_view', works:'works_view', prices:'prices_view'};
     function fire(goal){ try{ window.ct(CT_MOD_ID,'goal',goal); }catch(e){} }
     Object.keys(sections).forEach(function(id){
       var el=document.getElementById(id); if(!el)return;
